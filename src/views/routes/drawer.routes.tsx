@@ -33,14 +33,7 @@ export default function DrawerRoutes() {
           drawerLabel: 'Novo'
         }}
       />
-      <Drawer.Screen
-        name="cart"
-        component={StackRoutes}
-        options={{
-          drawerIcon: ({color, size}) => <Feather name="user" color={color} size={size} />,
-          drawerLabel: 'Meu Perfil'
-        }}
-      />
+      
     </Drawer.Navigator>
   )
 }

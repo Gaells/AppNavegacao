@@ -41,29 +41,34 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   }, [cartItems]);
 
   useEffect(() => {
-    updateCartItems(items);
+    if (items.length > 0) {
+      updateCartItems(items);
+    }
   }, [items]);
 
   const removeFromCart = (itemId: string) => {
     const updatedItems = items.filter((item) => item.id !== itemId);
     setItems(updatedItems);
+    updateCartItems(updatedItems);
   };
+  
 
   const increaseQuantity = (itemId: string) => {
-    const updatedItems = items.map((item) =>
-      item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    setItems(updatedItems);
-  };
-
-  const decreaseQuantity = (itemId: string) => {
-    const updatedItems = items
-      .map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
+    setItems(prevItems =>
+      prevItems.map(i =>
+        i.id === itemId ? { ...i, quantity: i.quantity + 1 } : i
       )
-      .filter((item) => item.quantity > 0);
-    setItems(updatedItems);
+    );
   };
+  
+  const decreaseQuantity = (itemId: string) => {
+    setItems(prevItems =>
+      prevItems.map(i =>
+        i.id === itemId && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i
+      )
+    );
+  };
+  
 
   const calculateTotalPrice = () => {
     return items
@@ -118,6 +123,19 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
       </View>
     );
   };
+
+  if (items.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 20 }}>Seu carrinho está vazio!</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={{ fontSize: 16, color: COLORS.primary, marginTop: 20 }}>
+            Voltar para a tela principal
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -194,3 +212,5 @@ const styles = StyleSheet.create({
 });
 
 export default CartScreen;
+
+

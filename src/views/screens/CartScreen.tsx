@@ -55,16 +55,16 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
 
   const increaseQuantity = (itemId: string) => {
     setItems(prevItems =>
-      prevItems.map(i =>
-        i.id === itemId ? { ...i, quantity: i.quantity + 1 } : i
+      prevItems.map(cartItem =>
+        cartItem.id === itemId ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
       )
     );
   };
   
   const decreaseQuantity = (itemId: string) => {
     setItems(prevItems =>
-      prevItems.map(i =>
-        i.id === itemId && i.quantity > 1 ? { ...i, quantity: i.quantity - 1 } : i
+      prevItems.map(cartItem =>
+        cartItem.id === itemId && cartItem.quantity > 1 ? { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem
       )
     );
   };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -36,10 +36,10 @@ interface HomeScreenProps {
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
-  const [cartItems, setCartItems] = React.useState<Food[]>(
-    route.params?.cartItems || []
-  );
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [cartItems, setCartItems] = useState<Food[]>(route.params?.cartItems || []);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredFoods, setFilteredFoods] = useState(foods);
 
   useEffect(() => {
     if (route.params?.cartItems) {
@@ -49,6 +49,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 
   const updateCartItems = (updatedItems: Food[]) => {
     setCartItems(updatedItems);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query) {
+      const filtered = foods.filter((food) =>
+        food.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredFoods(filtered);
+    } else {
+      setFilteredFoods(foods);
+    }
   };
 
   const ListCategories = () => {
@@ -155,7 +167,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
       </TouchableOpacity>
     );
   };
-  
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View
@@ -169,7 +181,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
           <Icon name="search" size={28} />
           <TextInput
             style={{ flex: 1, fontSize: 18 }}
-            placeholder=" Procure seus pratos"
+            placeholder="Procure seus pratos"
+            value={searchQuery}
+            onChangeText={handleSearch}
           />
         </View>
         <View style={style.sortBtn}>
@@ -182,7 +196,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        data={foods}
+        data={filteredFoods}
         renderItem={({ item }) => <Card food={item} />}
       />
     </SafeAreaView>

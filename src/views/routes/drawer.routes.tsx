@@ -2,6 +2,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Feather } from '@expo/vector-icons';
 import TabRoutes from "./tab.routes";
 import StackRoutes from "./stack.routes";
+import ProductList from "../screens/ProductList";
 
 const Drawer = createDrawerNavigator();
 
@@ -12,6 +13,7 @@ type DrawerIconProps = {
 
 const HomeIcon = ({ color, size }: DrawerIconProps) => <Feather name="home" color={color} size={size} />;
 const CartIcon = ({ color, size }: DrawerIconProps) => <Feather name="shopping-cart" color={color} size={size} />;
+const BookIcon = ({ color, size }: DrawerIconProps) => <Feather name="book" color={color} size={size} />;
 
 export default function DrawerRoutes() {
   return (
@@ -30,6 +32,14 @@ export default function DrawerRoutes() {
         options={{
           drawerIcon: CartIcon,
           drawerLabel: 'Carrinho'
+        }}
+      />
+      <Drawer.Screen
+        name="Lista de Produtos API"
+        component={ProductList}
+        options={{
+          drawerIcon: BookIcon,
+          drawerLabel: 'Produtos'
         }}
       />
     </Drawer.Navigator>

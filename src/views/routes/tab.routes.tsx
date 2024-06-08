@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
 import OnBoardScreen from '../screens/OnBoardScreen';
+import ProductList from '../screens/ProductList';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +17,7 @@ type TabBarIconProps = {
 const HomeIcon = ({ color, size }: TabBarIconProps) => <Icon name="home-filled" color={color} size={size} />;
 const FavoriteIcon = ({ color, size }: TabBarIconProps) => <Icon name="favorite" color={color} size={size} />;
 const CartIcon = ({ color, size }: TabBarIconProps) => <Icon name="shopping-cart" color={color} size={size} />;
+const BookIcon = ({ color, size }: TabBarIconProps) => <Icon name="book" color={color} size={size} />;
 
 const TabRoutes: React.FC = () => {
   return (
@@ -39,6 +41,13 @@ const TabRoutes: React.FC = () => {
         component={CartScreen}
         options={{
           tabBarIcon: CartIcon,
+        }}
+      />
+      <Tab.Screen
+        name="API"
+        component={ProductList}
+        options={{
+          tabBarIcon: BookIcon,
         }}
       />
     </Tab.Navigator>

@@ -5,10 +5,10 @@ interface Category {
 }
 
 const categories: Category[] = [
-  { id: '1', name: 'pizza', image: require('../assets/categories/pizza.png') },
-  { id: '2', name: 'Burger', image: require('../assets/categories/burger.png') },
-  { id: '3', name: 'Sushi', image: require('../assets/categories/sushi.png') },
-  { id: '4', name: 'Salad', image: require('../assets/categories/salad.png') },
+  { id: '1', name: 'Combos', image: require('../assets/categories/combo.png') },
+  { id: '2', name: 'Hamburger', image: require('../assets/categories/burger.png') },
+  { id: '3', name: 'Bebidas', image: require('../assets/categories/drink.png') },
+  { id: '4', name: 'Sobremesas', image: require('../assets/categories/sobremesa.png') },
 ];
 
 export default categories;

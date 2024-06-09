@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, SafeAreaView, Image } from 'react-native';
 import axios from 'axios';
 import COLORS from '../../consts/colors';
 import SearchBar from '../components/SearchBar';
@@ -64,11 +64,11 @@ const ProductList: React.FC = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
-              <Text>{item.nome} - R${item.preco}</Text>
-              <Text>{item.descricao}</Text>
+              <Text>{item.nome}</Text>
+              <Text>{item.preco}</Text>
+              <Image source={require(`../../assets/${item.id}.png`)} />
             </View>
-          )}
-        />
+          )} />
       </View>
     </SafeAreaView>
   );

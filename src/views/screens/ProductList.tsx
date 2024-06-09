@@ -64,9 +64,9 @@ const ProductList: React.FC = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
-              <Text>{item.nome}</Text>
-              <Text>{item.preco}</Text>
-              <Image source={require(`../../assets/${item.id}.png`)} />
+              <Text style={styles.item}>{item.nome}</Text>
+              <Text style={styles.item}>{item.preco}</Text>
+              <Image style={styles.imagem} source={require(`../../assets/${1}.png`)} />
             </View>
           )} />
       </View>
@@ -80,18 +80,26 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    marginTop: 40,
+    marginTop: 10,
     flexDirection: "row",
     paddingHorizontal: 20,
   },
   itemContainer: {
     marginBottom: 20,
   },
+  item: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  imagem: {
+    width: 200, 
+    height: 200,
+  }
 });
 
 export default ProductList;

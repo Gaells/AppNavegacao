@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
@@ -9,18 +9,27 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, handleSearch }) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
-    <View style={styles.inputContainer}>
-      <Icon name="search" size={28} />
+    <View style={[styles.inputContainer, isFocused && styles.focused]}>
       <TextInput
         style={{ flex: 1, fontSize: 18 }}
-        placeholder="Procure seus pratos"
+        placeholder="Procure seus lanches"
         value={searchQuery}
         onChangeText={handleSearch}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
-      <View style={styles.sortBtn}>
-        <Icon name="tune" size={22} color={COLORS.white} />
-      </View>
+      <Icon name="search" size={28} />
     </View>
   );
 };
@@ -35,14 +44,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-  sortBtn: {
-    width: 50,
-    height: 50,
-    marginLeft: 10,
-    backgroundColor: COLORS.primary,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
+  focused: {
+    borderWidth: 2,
+    borderColor: COLORS.dark,
   },
 });
 

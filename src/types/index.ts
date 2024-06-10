@@ -1,8 +1,7 @@
-export interface Food {
+export interface Product {
   id: string;
-  name: string;
-  image: any;
-  ingredients: string;
-  price: number;
-  quantity: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  quantidade: number;
 }

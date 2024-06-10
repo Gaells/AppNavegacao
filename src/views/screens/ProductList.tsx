@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, SafeAreaView, Image } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import COLORS from '../../consts/colors';
 import SearchBar from '../components/SearchBar';
+import Card from '../components/Card';
+import { Product } from '../../types/index';
 
-type Product = {
-  id: string;
-  nome: string;
-  descricao: string;
-  preco: number;
-};
+interface ProductListProps {
+  addToCart: (product: Product) => void;
+  cartItems: Product[];
+  setCartItems: (items: Product[]) => void;
+  updateCartItems: (items: Product[]) => void;
+  navigation: any; // Adicionando navigation aqui
+}
 
-const ProductList: React.FC = () => {
+const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCartItems, updateCartItems, navigation }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,8 +36,9 @@ const ProductList: React.FC = () => {
     const fetchMenuItems = async () => {
       try {
         const response = await axios.get('http://192.168.100.17:8080/api/items'); // Substitua pelo seu endereço IPv4
-        setProducts(response.data);
-        setFilteredProducts(response.data); // Inicialmente, mostrar todos os produtos
+        const productsWithQuantity = response.data.map((product: Product) => ({ ...product, quantidade: 0 }));
+        setProducts(productsWithQuantity);
+        setFilteredProducts(productsWithQuantity); // Inicialmente, mostrar todos os produtos
       } catch (error) {
         console.error('Erro ao buscar os itens do menu:', error);
       } finally {
@@ -63,12 +67,13 @@ const ProductList: React.FC = () => {
           data={filteredProducts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              <Text style={styles.item}>{item.nome}</Text>
-              <Text style={styles.item}>{item.preco}</Text>
-              <Image style={styles.imagem} source={require(`../../assets/${1}.png`)} />
-            </View>
-          )} />
+            <Card
+              product={item}
+              addToCart={addToCart}
+              navigation={navigation} // Passando navigation para o Card
+            />
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imagem: {
-    width: 200, 
+    width: 200,
     height: 200,
   }
 });

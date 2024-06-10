@@ -2,30 +2,27 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
-import { Food } from "../../types/index";
+import { Product } from "../../types/index";
 
 interface CardProps {
-  food: Food;
-  addToCart: (food: Food) => void;
+  product: Product;
+  addToCart: (product: Product) => void;
   navigation: any;
 }
 
-const Card: React.FC<CardProps> = ({ food, addToCart, navigation }) => {
+const Card: React.FC<CardProps> = ({ product, addToCart, navigation }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      onPress={() => navigation.navigate("DetailsScreen", food)}
+      onPress={() => addToCart(product)}
       style={{ flex: 1 }}
     >
       <View style={styles.card}>
         <View style={{ alignItems: "center", top: -40 }}>
-          <Image source={food.image} style={{ height: 120, width: 120 }} />
+          <Image source={require("../../assets/3.png")} style={{ height: 120, width: 120 }} />
         </View>
         <View style={{ marginHorizontal: 20 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>{food.name}</Text>
-          <Text style={{ fontSize: 14, color: COLORS.grey, marginTop: 2 }}>
-            {food.ingredients}
-          </Text>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>{product.nome}</Text>
         </View>
         <View
           style={{
@@ -35,9 +32,9 @@ const Card: React.FC<CardProps> = ({ food, addToCart, navigation }) => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>${food.price}</Text>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>${product.preco}</Text>
           <TouchableOpacity
-            onPress={() => addToCart(food)}
+            onPress={() => addToCart(product)}
             style={styles.addToCartBtn}
           >
             <Icon name="add" size={20} color={COLORS.white} />

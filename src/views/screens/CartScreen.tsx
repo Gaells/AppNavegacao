@@ -10,18 +10,10 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
-
-interface Food {
-  id: string;
-  name: string;
-  ingredients: string;
-  price: number;
-  image: any;
-  quantity: number;
-}
+import { Product } from "../../types/index";
 
 interface CartCardProps {
-  item: Food;
+  item: Product;
   removeFromCart: (itemId: string) => void;
   increaseQuantity: (itemId: string) => void;
   decreaseQuantity: (itemId: string) => void;
@@ -34,7 +26,7 @@ interface CartScreenProps {
 
 const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   const { cartItems, updateCartItems } = route.params || {};
-  const [items, setItems] = useState<Food[]>(cartItems || []);
+  const [items, setItems] = useState<Product[]>(cartItems || []);
 
   useEffect(() => {
     setItems(cartItems || []);
@@ -51,29 +43,27 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
     setItems(updatedItems);
     updateCartItems(updatedItems);
   };
-  
 
   const increaseQuantity = (itemId: string) => {
     setItems(prevItems =>
       prevItems.map(cartItem =>
-        cartItem.id === itemId ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+        cartItem.id === itemId ? { ...cartItem, quantidade: cartItem.quantidade + 1 } : cartItem
       )
     );
   };
-  
+
   const decreaseQuantity = (itemId: string) => {
     setItems(prevItems =>
       prevItems.map(cartItem =>
-        cartItem.id === itemId && cartItem.quantity > 1 ? { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem
+        cartItem.id === itemId && cartItem.quantidade > 1 ? { ...cartItem, quantidade: cartItem.quantidade - 1 } : cartItem
       )
     );
   };
-  
 
   const calculateTotalPrice = () => {
     return items
       .reduce(
-        (total, item) => total + (item.price || 0) * (item.quantity || 0),
+        (total, item) => total + (item.preco || 0) * (item.quantidade || 0),
         0
       )
       .toFixed(2);
@@ -87,16 +77,13 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   }) => {
     return (
       <View style={styles.cartCard}>
-        <Image source={item.image} style={{ height: 80, width: 80 }} />
+        <Image source={require("../../assets/3.png")} style={{ height: 80, width: 80 }} />
         <View
           style={{ height: 100, marginLeft: 10, paddingVertical: 20, flex: 1 }}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 16 }}>{item.name}</Text>
-          <Text style={{ fontSize: 13, color: COLORS.grey }}>
-            {item.ingredients}
-          </Text>
+          <Text style={{ fontWeight: "bold", fontSize: 16 }}>{item.nome}</Text>
           <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-            ${item.price}
+            ${item.preco}
           </Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -106,7 +93,7 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
           >
             <Icon name="remove" size={20} color={COLORS.white} />
           </TouchableOpacity>
-          <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
+          <Text style={{ marginHorizontal: 10 }}>{item.quantidade}</Text>
           <TouchableOpacity
             onPress={() => increaseQuantity(item.id)}
             style={styles.actionBtn}
@@ -128,7 +115,7 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontSize: 20 }}>Seu carrinho está vazio!</Text>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
           <Text style={{ fontSize: 16, color: COLORS.primary, marginTop: 20 }}>
             Voltar para a tela principal
           </Text>
@@ -212,5 +199,3 @@ const styles = StyleSheet.create({
 });
 
 export default CartScreen;
-
-

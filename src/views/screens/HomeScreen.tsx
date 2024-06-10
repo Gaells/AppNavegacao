@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  View} from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import COLORS from "../../consts/colors";
 import ListCategories from "../components/ListCategories";
-import { Food } from "../../types/index";
+import { Product } from "../../types/index";
 import ProductList from "./ProductList";
 
 interface HomeScreenProps {
@@ -15,7 +12,7 @@ interface HomeScreenProps {
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
-  const [cartItems, setCartItems] = useState<Food[]>(route.params?.cartItems || []);
+  const [cartItems, setCartItems] = useState<Product[]>(route.params?.cartItems || []);
 
   useEffect(() => {
     if (route.params?.cartItems) {
@@ -23,17 +20,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
     }
   }, [route.params?.cartItems]);
 
-  const updateCartItems = (updatedItems: Food[]) => {
+  const updateCartItems = (updatedItems: Product[]) => {
     setCartItems(updatedItems);
   };
 
-  const addToCart = (food: Food) => {
+  const addToCart = (product: Product) => {
     const updatedCartItems = [...cartItems];
-    const existingItem = updatedCartItems.find((item) => item.id === food.id);
+    const existingItem = updatedCartItems.find((item) => item.id === product.id);
     if (existingItem) {
-      existingItem.quantity++;
+      existingItem.quantidade++;
     } else {
-      updatedCartItems.push({ ...food, quantity: 1 });
+      updatedCartItems.push({ ...product, quantidade: 1 });
     }
     setCartItems(updatedCartItems);
     navigation.navigate("CartScreen", {
@@ -43,26 +40,28 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView style={styles.container}>
       <View>
-        <ListCategories // Aqui temos as categorias que ficam abaixo da barra de pesquisa
+        <ListCategories 
           selectedCategoryIndex={selectedCategoryIndex}
           setSelectedCategoryIndex={setSelectedCategoryIndex}
         />
       </View>
-      <ProductList />
+      <ProductList 
+        addToCart={addToCart} 
+        cartItems={cartItems}
+        setCartItems={setCartItems}
+        updateCartItems={updateCartItems}
+        navigation={navigation} // Passando a prop navigation aqui
+      />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    marginTop: 40,
-    flexDirection: "row",
-    paddingHorizontal: 20,
-  },
   container: {
     flex: 1,
+    backgroundColor: COLORS.white,
   },
 });
 

@@ -11,6 +11,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
 import { Product } from "../../types/index";
+import { productImages } from "../../consts/Imagens";
 
 interface CartCardProps {
   item: Product;
@@ -47,7 +48,7 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   const increaseQuantity = (itemId: string) => {
     setItems(prevItems =>
       prevItems.map(cartItem =>
-        cartItem.id === itemId ? { ...cartItem, quantidade: cartItem.quantidade + 1 } : cartItem
+        cartItem.id === itemId ? { ...cartItem, quantity: cartItem.quantidade + 1 } : cartItem
       )
     );
   };
@@ -55,7 +56,7 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   const decreaseQuantity = (itemId: string) => {
     setItems(prevItems =>
       prevItems.map(cartItem =>
-        cartItem.id === itemId && cartItem.quantidade > 1 ? { ...cartItem, quantidade: cartItem.quantidade - 1 } : cartItem
+        cartItem.id === itemId && cartItem.quantidade > 1 ? { ...cartItem, quantity: cartItem.quantidade - 1 } : cartItem
       )
     );
   };
@@ -77,11 +78,14 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   }) => {
     return (
       <View style={styles.cartCard}>
-        <Image source={require("../../assets/3.png")} style={{ height: 80, width: 80 }} />
+        <Image source={productImages[item.id]} style={{ height: 80, width: 80 }} />
         <View
           style={{ height: 100, marginLeft: 10, paddingVertical: 20, flex: 1 }}
         >
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>{item.nome}</Text>
+          <Text style={{ fontSize: 13, color: COLORS.grey }}>
+            {item.descricao}
+          </Text>
           <Text style={{ fontSize: 17, fontWeight: "bold" }}>
             ${item.preco}
           </Text>

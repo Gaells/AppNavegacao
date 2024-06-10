@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from "rea
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
 import { Product } from "../../types/index";
+import { productImages } from "../../consts/Imagens";
 
 interface CardProps {
   product: Product;
@@ -19,7 +20,7 @@ const Card: React.FC<CardProps> = ({ product, addToCart, navigation }) => {
     >
       <View style={styles.card}>
         <View style={{ alignItems: "center", top: -40 }}>
-          <Image source={require("../../assets/3.png")} style={{ height: 120, width: 120 }} />
+          <Image source={productImages[product.id]} style={{ height: 120, width: 120 }} />
         </View>
         <View style={{ marginHorizontal: 20 }}>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>{product.nome}</Text>

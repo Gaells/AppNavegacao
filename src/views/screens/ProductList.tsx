@@ -11,7 +11,7 @@ interface ProductListProps {
   cartItems: Product[];
   setCartItems: (items: Product[]) => void;
   updateCartItems: (items: Product[]) => void;
-  navigation: any; // Adicionando navigation aqui
+  navigation: any; // Ajuste conforme necessário
 }
 
 const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCartItems, updateCartItems, navigation }) => {
@@ -58,7 +58,7 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
       </View>
@@ -67,11 +67,13 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
           data={filteredProducts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <Card
-              product={item}
-              addToCart={addToCart}
-              navigation={navigation} // Passando navigation para o Card
-            />
+            <View style={styles.itemContainer}>
+              <Card
+                product={item}
+                addToCart={addToCart}
+                navigation={navigation} // Passando navigation para o Card
+              />
+            </View>
           )}
         />
       </View>
@@ -80,6 +82,10 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -91,10 +97,8 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     marginBottom: 20,
-  },
-  item: {
-    fontSize: 20,
-    fontWeight: "bold",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   loadingContainer: {
     flex: 1,

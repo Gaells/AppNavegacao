@@ -2,32 +2,49 @@ import React from 'react';
 import { Text, StyleSheet, View, Image, SafeAreaView } from 'react-native';
 import COLORS from '../../consts/colors';
 import { PrimaryButton } from '../components/Button';
+import AppLoading from 'expo-app-loading';
+import { useFonts, Kanit_400Regular, Kanit_700Bold } from '@expo-google-fonts/kanit';
 
 interface OnBoardScreenProps {
-  navigation: any; // Você pode ajustar esse tipo para o tipo real de navegação, se estiver utilizando algum sistema de navegação específico.
+  navigation: any;
 }
 
 const OnBoardScreen: React.FC<OnBoardScreenProps> = ({ navigation }) => {
+  let [fontsLoaded] = useFonts({
+    Kanit_400Regular,
+    Kanit_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require('../../assets/onboardImage.png')}
+          source={require('../../assets/categories/burger.png')}
         />
         <View style={styles.textContainer}>
           <Text style={styles.title}>
-            Comida Deliciosa
+            Faça seu Pedido Aqui!
           </Text>
           <Text style={styles.description}>
-            Nós te ajudamos a encontrar a melhor e mais deliciosa comida
+            Onde você irá comer hoje?
           </Text>
-          <PrimaryButton 
-            onPress={() => navigation.navigate('HomeScreen')}
-            title="Começar"
-          />
+          <View style={styles.buttonContainer}>
+            <PrimaryButton 
+              onPress={() => navigation.navigate('HomeScreen')}
+              title="Comer aqui"
+            />
+            <PrimaryButton 
+              onPress={() => navigation.navigate('HomeScreen')}
+              title="Vou levar"
+            />
+          </View>
         </View>
-      </View>
+      </View>    
     </SafeAreaView>
   );
 };
@@ -50,15 +67,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontFamily: 'Kanit_700Bold',
     textAlign: 'center',
     marginBottom: 10,
     color: COLORS.dark,
   },
   description: {
     fontSize: 20,
+    fontFamily: 'Kanit_400Regular',
     textAlign: 'center',
     color: COLORS.grey,
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

@@ -26,39 +26,33 @@ interface CartScreenProps {
 }
 
 const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
-  const { cartItems, updateCartItems } = route.params || {};
+  const { cartItems } = route.params || {};
   const [items, setItems] = useState<Product[]>(cartItems || []);
 
   useEffect(() => {
     setItems(cartItems || []);
   }, [cartItems]);
 
-  useEffect(() => {
-    if (items.length > 0) {
-      updateCartItems(items);
-    }
-  }, [items]);
-
   const removeFromCart = (itemId: string) => {
     const updatedItems = items.filter((item) => item.id !== itemId);
     setItems(updatedItems);
-    updateCartItems(updatedItems);
+    navigation.setParams({ cartItems: updatedItems });
   };
 
   const increaseQuantity = (itemId: string) => {
-    setItems(prevItems =>
-      prevItems.map(cartItem =>
-        cartItem.id === itemId ? { ...cartItem, quantity: cartItem.quantidade + 1 } : cartItem
-      )
+    const updatedItems = items.map(cartItem =>
+      cartItem.id === itemId ? { ...cartItem, quantidade: cartItem.quantidade + 1 } : cartItem
     );
+    setItems(updatedItems);
+    navigation.setParams({ cartItems: updatedItems });
   };
 
   const decreaseQuantity = (itemId: string) => {
-    setItems(prevItems =>
-      prevItems.map(cartItem =>
-        cartItem.id === itemId && cartItem.quantidade > 1 ? { ...cartItem, quantity: cartItem.quantidade - 1 } : cartItem
-      )
+    const updatedItems = items.map(cartItem =>
+      cartItem.id === itemId && cartItem.quantidade > 1 ? { ...cartItem, quantidade: cartItem.quantidade - 1 } : cartItem
     );
+    setItems(updatedItems);
+    navigation.setParams({ cartItems: updatedItems });
   };
 
   const calculateTotalPrice = () => {
@@ -78,36 +72,21 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
   }) => {
     return (
       <View style={styles.cartCard}>
-        <Image source={productImages[item.id]} style={{ height: 80, width: 80 }} />
-        <View
-          style={{ height: 100, marginLeft: 10, paddingVertical: 20, flex: 1 }}
-        >
-          <Text style={{ fontWeight: "bold", fontSize: 16 }}>{item.nome}</Text>
-          <Text style={{ fontSize: 13, color: COLORS.grey }}>
-            {item.descricao}
-          </Text>
-          <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-            ${item.preco}
-          </Text>
+        <Image source={productImages[item.id]} style={styles.image} />
+        <View style={styles.details}>
+          <Text style={styles.name}>{item.nome}</Text>
+          <Text style={styles.description}>{item.descricao}</Text>
+          <Text style={styles.price}>${item.preco}</Text>
         </View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TouchableOpacity
-            onPress={() => decreaseQuantity(item.id)}
-            style={styles.actionBtn}
-          >
+        <View style={styles.actions}>
+          <TouchableOpacity onPress={() => decreaseQuantity(item.id)} style={styles.actionBtn}>
             <Icon name="remove" size={20} color={COLORS.white} />
           </TouchableOpacity>
-          <Text style={{ marginHorizontal: 10 }}>{item.quantidade}</Text>
-          <TouchableOpacity
-            onPress={() => increaseQuantity(item.id)}
-            style={styles.actionBtn}
-          >
+          <Text style={styles.quantity}>{item.quantidade}</Text>
+          <TouchableOpacity onPress={() => increaseQuantity(item.id)} style={styles.actionBtn}>
             <Icon name="add" size={20} color={COLORS.white} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => removeFromCart(item.id)}
-            style={styles.actionBtn}
-          >
+          <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.actionBtn}>
             <Icon name="delete" size={20} color={COLORS.white} />
           </TouchableOpacity>
         </View>
@@ -117,26 +96,24 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
 
   if (items.length === 0) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontSize: 20 }}>Seu carrinho está vazio!</Text>
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>Seu carrinho está vazio!</Text>
         <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-          <Text style={{ fontSize: 16, color: COLORS.primary, marginTop: 20 }}>
-            Voltar para a tela principal
-          </Text>
+          <Text style={styles.backToHome}>Voltar para a tela principal</Text>
         </TouchableOpacity>
       </View>
     );
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
         <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack} />
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>Carrinho</Text>
+        <Text style={styles.headerTitle}>Carrinho</Text>
       </View>
       <FlatList
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={styles.flatList}
         data={items}
         renderItem={({ item }) => (
           <CartCard
@@ -149,9 +126,9 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
       />
       <View style={styles.footer}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={styles.totalPrice}>Total Price</Text>
-          <Text style={styles.totalPrice}>${calculateTotalPrice()}</Text>
+        <View style={styles.totalContainer}>
+          <Text style={styles.totalText}>Total Price</Text>
+          <Text style={styles.totalText}>${calculateTotalPrice()}</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -159,11 +136,20 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+  },
   header: {
     paddingVertical: 20,
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 20,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 10,
   },
   cartCard: {
     height: 100,
@@ -173,6 +159,32 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 20,
     paddingHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  image: {
+    height: 80,
+    width: 80,
+  },
+  details: {
+    height: 100,
+    marginLeft: 10,
+    paddingVertical: 20,
+    flex: 1,
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  description: {
+    fontSize: 13,
+    color: COLORS.grey,
+  },
+  price: {
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+  actions: {
     flexDirection: "row",
     alignItems: "center",
   },
@@ -186,6 +198,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  quantity: {
+    marginHorizontal: 10,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 20,
+  },
+  backToHome: {
+    fontSize: 16,
+    color: COLORS.primary,
+    marginTop: 20,
+  },
+  flatList: {
+    paddingBottom: 80,
+  },
   footer: {
     position: "absolute",
     bottom: 0,
@@ -196,10 +227,15 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: COLORS.light,
   },
-  totalPrice: {
+  totalContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  totalText: {
     fontSize: 18,
     fontWeight: "bold",
   },
 });
 
 export default CartScreen;
+   

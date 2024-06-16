@@ -10,11 +10,10 @@ interface ProductListProps {
   addToCart: (product: Product) => void;
   cartItems: Product[];
   setCartItems: (items: Product[]) => void;
-  updateCartItems: (items: Product[]) => void;
-  navigation: any; // Ajuste conforme necessário
+  navigation: any;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCartItems, updateCartItems, navigation }) => {
+const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCartItems,  navigation }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,7 +37,7 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
         const response = await axios.get('http://192.168.100.17:8080/api/items'); // Substitua pelo seu endereço IPv4
         const productsWithQuantity = response.data.map((product: Product) => ({ ...product, quantidade: 0 }));
         setProducts(productsWithQuantity);
-        setFilteredProducts(productsWithQuantity); // Inicialmente, mostrar todos os produtos
+        setFilteredProducts(productsWithQuantity);
       } catch (error) {
         console.error('Erro ao buscar os itens do menu:', error);
       } finally {
@@ -71,7 +70,7 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
               <Card
                 product={item}
                 addToCart={addToCart}
-                navigation={navigation} // Passando navigation para o Card
+                navigation={navigation}
               />
             </View>
           )}

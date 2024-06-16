@@ -20,22 +20,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
     }
   }, [route.params?.cartItems]);
 
-  const updateCartItems = (updatedItems: Product[]) => {
-    setCartItems(updatedItems);
-  };
-
   const addToCart = (product: Product) => {
     const updatedCartItems = [...cartItems];
-    const existingItem = updatedCartItems.find((item) => item.id === product.id);
-    if (existingItem) {
-      existingItem.quantidade++;
+    const existingItemIndex = updatedCartItems.findIndex((item) => item.id === product.id);
+    if (existingItemIndex !== -1) {
+      updatedCartItems[existingItemIndex].quantidade++;
     } else {
       updatedCartItems.push({ ...product, quantidade: 1 });
     }
     setCartItems(updatedCartItems);
     navigation.navigate("CartScreen", {
       cartItems: updatedCartItems,
-      updateCartItems,
     });
   };
 
@@ -51,7 +46,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
         addToCart={addToCart} 
         cartItems={cartItems}
         setCartItems={setCartItems}
-        updateCartItems={updateCartItems}
         navigation={navigation} // Passando a prop navigation aqui
       />
     </SafeAreaView>

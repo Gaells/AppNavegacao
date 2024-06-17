@@ -4,9 +4,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
 import { Product } from "../../types/index";
 import { productImages } from "../../consts/Imagens";
-import { useFonts, Kanit_400Regular, Kanit_700Bold } from '@expo-google-fonts/kanit';
-import AppLoading from "expo-app-loading";
-
 interface CardProps {
   product: Product;
   addToCart: (product: Product) => void;
@@ -14,15 +11,6 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ product, addToCart, navigation }) => {
-  let [fontsLoaded] = useFonts({
-    Kanit_400Regular,
-    Kanit_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-  
   return (
     <TouchableOpacity
       activeOpacity={0.9}

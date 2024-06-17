@@ -46,7 +46,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
         addToCart={addToCart} 
         cartItems={cartItems}
         setCartItems={setCartItems}
-        navigation={navigation} // Passando a prop navigation aqui
+        navigation={navigation}
       />
     </SafeAreaView>
   );

@@ -2,29 +2,18 @@ import React from 'react';
 import { Text, StyleSheet, View, Image, SafeAreaView } from 'react-native';
 import COLORS from '../../consts/colors';
 import { PrimaryButton } from '../components/Button';
-import AppLoading from 'expo-app-loading';
-import { useFonts, Kanit_400Regular, Kanit_700Bold } from '@expo-google-fonts/kanit';
-
 interface OnBoardScreenProps {
   navigation: any;
 }
 
 const OnBoardScreen: React.FC<OnBoardScreenProps> = ({ navigation }) => {
-  let [fontsLoaded] = useFonts({
-    Kanit_400Regular,
-    Kanit_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require('../../assets/categories/burger.png')}
+          source={require('../../assets/logo.png')}
         />
         <View style={styles.textContainer}>
           <Text style={styles.title}>

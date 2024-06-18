@@ -15,6 +15,7 @@ Depois de popular com alguns itens, execute o projeto React Native, AppNavega√ß√
 <img src="https://github.com/Gaells/AppNavegacao/assets/105751499/1df06725-a76d-4372-b134-9a1612e2f7b5" width="300"/>
 
 ### Tela Home
+<img src="https://github.com/Gaells/AppNavegacao/assets/105751499/c6f90ff1-209e-4ebb-b7b1-a9c4c229823f" width="300" />
 
 ### Carrinho Populado
 <img src="https://github.com/Gaells/AppNavegacao/assets/105751499/acacde00-ce6d-4c85-bbb1-47ba0d46aaff" width="300"/>

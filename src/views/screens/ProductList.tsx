@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator, SafeAreaView, Text } from 'react-native';
 import axios from 'axios';
 import COLORS from '../../consts/colors';
 import SearchBar from '../components/SearchBar';
 import Card from '../components/Card';
 import { Product } from '../../types/index';
+import ListCategories from '../components/ListCategories';
 
 interface ProductListProps {
   addToCart: (product: Product) => void;
@@ -18,6 +19,7 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -61,6 +63,12 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
       <View style={styles.header}>
         <SearchBar searchQuery={searchQuery} handleSearch={handleSearch} />
       </View>
+      <View>
+        <ListCategories 
+          selectedCategoryIndex={selectedCategoryIndex}
+          setSelectedCategoryIndex={setSelectedCategoryIndex}
+        />
+      </View>
       <View style={styles.container}>
         <FlatList
           data={filteredProducts}
@@ -91,8 +99,9 @@ const styles = StyleSheet.create({
   },
   header: {
     marginTop: 10,
-    flexDirection: "row",
+    flexDirection: "column",
     paddingHorizontal: 20,
+    alignItems: 'center'
   },
   itemContainer: {
     marginBottom: 20,
@@ -107,7 +116,13 @@ const styles = StyleSheet.create({
   imagem: {
     width: 200,
     height: 200,
-  }
+  },
+  title: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    fontFamily: 'Kanit_800Regular',
+  },
 });
 
 export default ProductList;

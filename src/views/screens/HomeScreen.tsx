@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import COLORS from "../../consts/colors";
-import ListCategories from "../components/ListCategories";
 import { Product } from "../../types/index";
 import ProductList from "./ProductList";
+import SearchBar from "../components/SearchBar";
 
 interface HomeScreenProps {
   navigation: any;
@@ -11,7 +11,6 @@ interface HomeScreenProps {
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [cartItems, setCartItems] = useState<Product[]>(route.params?.cartItems || []);
 
   useEffect(() => {
@@ -36,12 +35,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <ListCategories 
-          selectedCategoryIndex={selectedCategoryIndex}
-          setSelectedCategoryIndex={setSelectedCategoryIndex}
-        />
-      </View>
       <ProductList 
         addToCart={addToCart} 
         cartItems={cartItems}

@@ -49,6 +49,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.dark,
   },
+  header: {
+    paddingTop: 10,
+    height: 50,
+    marginTop: 10,
+    flexDirection: "column",
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
 });
 
 export default HomeScreen;

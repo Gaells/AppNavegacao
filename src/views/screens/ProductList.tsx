@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    marginTop: 10,
+    height: 50,
+    marginTop: 15,
     flexDirection: "column",
     paddingHorizontal: 20,
     alignItems: 'center'

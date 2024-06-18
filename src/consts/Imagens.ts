@@ -15,3 +15,4 @@ export const productImages: { [key: string]: any } = {
   "13": require("../assets/13.png"),
   "14": require("../assets/14.png"),
 };
+

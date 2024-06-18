@@ -5,3 +5,5 @@ export interface Product {
   preco: number;
   quantidade: number;
 }
+
+

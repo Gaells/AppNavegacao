@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    height: 220,
-    width: Dimensions.get("screen").width / 2 - 20,
+    height: 200,
+    width: Dimensions.get("screen").width / 2,
     marginHorizontal: 10,
     marginBottom: 20,
     marginTop: 50,
     borderRadius: 15,
     elevation: 13,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.yellow
   },
   imageContainer: {
     alignItems: "center",

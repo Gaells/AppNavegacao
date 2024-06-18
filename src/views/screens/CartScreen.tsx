@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../../consts/colors";
 import { Product } from "../../types/index";
 import { productImages } from "../../consts/Imagens";
+import { PrimaryButton, SecondaryButton } from "../components/Button";
 
 interface CartCardProps {
   item: Product;
@@ -76,7 +77,7 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
         <View style={styles.details}>
           <Text style={styles.name}>{item.nome}</Text>
           <Text style={styles.description}>{item.descricao}</Text>
-          <Text style={styles.price}>${item.preco}</Text>
+          <Text style={styles.price}>R${item.preco}</Text>
         </View>
         <View style={styles.actions}>
           <TouchableOpacity onPress={() => decreaseQuantity(item.id)} style={styles.actionBtn}>
@@ -127,8 +128,9 @@ const CartScreen: React.FC<CartScreenProps> = ({ navigation, route }) => {
       />
       <View style={styles.footer}>
         <View style={styles.totalContainer}>
-          <Text style={styles.totalText}>Total Price</Text>
-          <Text style={styles.totalText}>${calculateTotalPrice()}</Text>
+          <Text style={styles.totalText}>Total</Text>
+          <Text style={styles.totalText}>R${calculateTotalPrice()}</Text>
+          <PrimaryButton title={"Concluir Pedido"}/>
         </View>
       </View>
     </SafeAreaView>
@@ -190,13 +192,13 @@ const styles = StyleSheet.create({
     height: 32,
     backgroundColor: COLORS.primary,
     borderRadius: 16,
-    paddingHorizontal: 5,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    margin: 5
   },
   quantity: {
-    marginHorizontal: 10,
+    marginHorizontal: 1,
   },
   emptyContainer: {
     flex: 1,
@@ -227,9 +229,10 @@ const styles = StyleSheet.create({
   totalContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center"
   },
   totalText: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: "bold",
   },
 });

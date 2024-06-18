@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, View, Text } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import COLORS from "../../consts/colors";
 import { Product } from "../../types/index";
 import ProductList from "./ProductList";
-import SearchBar from "../components/SearchBar";
 
 interface HomeScreenProps {
   navigation: any;
@@ -48,7 +47,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.dark,
   },
 });
 

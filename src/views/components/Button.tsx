@@ -32,8 +32,7 @@ const style = StyleSheet.create({
   btnContainer: {
     backgroundColor: COLORS.primary,
     height: 60,
-    marginTop: 10,
-    width: 130,
+    width: 150,
     margin: 5,
     borderRadius: 20,
     justifyContent: 'center',

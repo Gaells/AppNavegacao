@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, StyleSheet, ActivityIndicator, SafeAreaView, Text } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import COLORS from '../../consts/colors';
 import SearchBar from '../components/SearchBar';
@@ -36,7 +36,7 @@ const ProductList: React.FC<ProductListProps> = ({ addToCart, cartItems, setCart
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await axios.get('http://192.168.100.17:8080/api/items'); // Substitua pelo seu endereço IPv4
+        const response = await axios.get('http://192.168.100.17:8080/api/items'); // endereço IPv4
         const productsWithQuantity = response.data.map((product: Product) => ({ ...product, quantidade: 0 }));
         setProducts(productsWithQuantity);
         setFilteredProducts(productsWithQuantity);

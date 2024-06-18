@@ -152,19 +152,16 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   cartCard: {
-    height: 100,
-    elevation: 15,
-    borderRadius: 10,
-    backgroundColor: COLORS.white,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    paddingHorizontal: 10,
     flexDirection: "row",
-    alignItems: "center",
+    margin: 10,
+    padding: 10,
+    backgroundColor: COLORS.light,
+    borderRadius: 10,
+    alignItems: "center"
   },
   image: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
   },
   details: {
     height: 100,
